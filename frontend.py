@@ -6,7 +6,6 @@ from conversation_logger import configure_papertrail_logging
 # Configure papertrail-logging
 logger = configure_papertrail_logging()
 
-
 # Streamlit app
 st.title("PA Navigator")
 

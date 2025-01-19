@@ -14,7 +14,7 @@ def configure_papertrail_logging():
     logger.setLevel(logging.INFO)  # Log nivå (INFO, WARNING, ERROR, etc.)
 
     # Konfigurera Papertrail SysLogHandler
-    papertrail_handler = SysLogHandler(address=("logs2.papertrailapp.com", os.environ.get("PAPERTRAIL_PORT")))  # Byt ut med din host och port
+    papertrail_handler = SysLogHandler(address=("logs2.papertrailapp.com", int(os.environ.get("PAPERTRAIL_PORT"))))  # Byt ut med din host och port
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     papertrail_handler.setFormatter(formatter)
     
