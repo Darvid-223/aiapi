@@ -1,7 +1,7 @@
 import streamlit as st
 from api_handler import generate_response
 from connect_to_db import query_database
-from datetime import datetime
+from conversation_logger import log_conversation
 
 # Streamlit app
 st.title("PA Navigator")
@@ -31,7 +31,7 @@ def send_message():
 
             # log promts and answers
             log_conversation(prompt=user_input, response=gpt_response)
-            
+
         except Exception as e:
             st.session_state["history"].append({"role": "assistant", "content": f"An error occurred: {e}"})
             st.error(f"An error occurred: {e}")
@@ -47,23 +47,8 @@ for message in st.session_state["history"]:
     st.markdown(f"**{role}:** {message['content']}")
 
 # Input field with a key for session state
-st.text_input("Du:", key="user_input", placeholder="Write your message here...", on_change=send_message)
+st.text_input("Du:", key="user_input", placeholder="Skriv din fråga här...", on_change=send_message)
 
 # "Clear Conversation" button to reset the history (excluding the system message)
 if st.button("Rensa konversation"):
-    st.session_state["history"] = [st.session_state["history"][0]]  # Behåll endast systemmeddelandet
-
-
-def log_conversation(prompt: str, response: str, log_file: str = "conversation_log.txt"):
-    """
-    Logs the user's prompt and the assistant's response to a file.
-
-    Args:
-        prompt (str): The user's input.
-        response (str): The assistant's response.
-        log_file (str): The file where the conversation will be logged.
-    """
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"{timestamp}\nUser: {prompt}\nAssistant: {response}\n{'-'*40}\n"
-    with open(log_file, "a", encoding="utf-8") as file:
-        file.write(log_entry)
+    st.session_state["history"] = [st.session_state["history"][0]]  # Keep system message only
