@@ -1,16 +1,22 @@
-from datetime import datetime
+import os
+from dotenv import load_dotenv
+import logging
+from logging.handlers import SysLogHandler
+
+load_dotenv()
 
 
-def log_conversation(prompt: str, response: str, log_file: str = "conversation_log.txt"):
+def configure_papertrail_logging():
     """
-    Logs the user's prompt and the assistant's response to a file.
-
-    Args:
-        prompt (str): The user's input.
-        response (str): The assistant's response.
-        log_file (str): The file where the conversation will be logged.
+    Configures logging to send logs to Papertrail.
     """
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"{timestamp}\nUser: {prompt}\nAssistant: {response}\n{'-'*40}\n"
-    with open(log_file, "a", encoding="utf-8") as file:
-        file.write(log_entry)
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)  # Log nivå (INFO, WARNING, ERROR, etc.)
+
+    # Konfigurera Papertrail SysLogHandler
+    papertrail_handler = SysLogHandler(address=("logs2.papertrailapp.com", os.environ.get("PAPERTRAIL_PORT")))  # Byt ut med din host och port
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    papertrail_handler.setFormatter(formatter)
+    
+    logger.addHandler(papertrail_handler)
+    return logger

@@ -1,7 +1,11 @@
 import streamlit as st
 from api_handler import generate_response
 from connect_to_db import query_database
-from conversation_logger import log_conversation
+from conversation_logger import configure_papertrail_logging
+
+# Configure papertrail-logging
+logger = configure_papertrail_logging()
+
 
 # Streamlit app
 st.title("PA Navigator")
@@ -30,7 +34,9 @@ def send_message():
             st.session_state["history"].append({"role": "assistant", "content": gpt_response})
 
             # log promts and answers
-            log_conversation(prompt=user_input, response=gpt_response)
+            
+            logger.info(f"User Prompt: {user_input}")
+            logger.info(f"Assistant Response: {gpt_response}")
 
         except Exception as e:
             st.session_state["history"].append({"role": "assistant", "content": f"An error occurred: {e}"})
