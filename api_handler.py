@@ -3,6 +3,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from connect_to_db import query_database
 
+
 # Load .env file
 load_dotenv()
 
@@ -39,10 +40,10 @@ if __name__ == "__main__":
     # Initialize conversation history with a system message
     conversation_history = [
         {"role": "system", "content": (
-            "You are a workplace assistant called PA Navigator. Your role is to help employees "
-            "find information about the organization and its employees. You have access to a PostgreSQL "
-            "database with details about employees, such as their names, roles, ages, and genders. "
-            "Answer questions based on this information."
+            "You are an assistant for a workplace called 'Eklunda kommun'. Your purpose is to help employees "
+            "find information about the organization and its staff. You have access to a PostgreSQL database that contains "
+            "detailed information about employees, such as their names, roles, ages, and genders. Use this database when answering "
+            "questions about specific people."
         )}
     ]
 

@@ -1,3 +1,4 @@
 .env
 venv/
 kladd.txt
+conversation_log.tx

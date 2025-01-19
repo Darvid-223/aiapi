@@ -1,0 +1,8 @@
+2025-01-19 19:00:22
+User: Hej, Loggas detta?
+Assistant: Hej! Ja, vårt samtal loggas av säkerhetsskäl och för att förbättra kvaliteten på tjänsten över tid. Hur kan jag hjälpa dig idag?
+----------------------------------------
+2025-01-19 19:00:31
+User: test
+Assistant: Hur kan jag hjälpa dig idag?
+----------------------------------------
