@@ -1,9 +1,16 @@
+import os
 import streamlit as st
 from api_handler import generate_response
 from conversation_logger import configure_papertrail_logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure papertrail-logging
 logger = configure_papertrail_logging()
+
+# Load assistant ID
+ASSISTANT_ID = os.environ.get("ASSISTANT_ID")
 
 # Streamlit app
 st.title("PA Navigator")
@@ -25,7 +32,7 @@ def send_message():
 
         # Fetch ChatGPT's response with the full conversation history
         try:
-            gpt_response = generate_response(history=st.session_state["history"])
+            gpt_response = generate_response(history=st.session_state["history"], assistant_id=ASSISTANT_ID)
             st.session_state["history"].append({"role": "assistant", "content": gpt_response})
 
             # log promts and answers
