@@ -18,7 +18,7 @@ def generate_response(history: list, assistant_id: str) -> str:
     """
     try:
         # Send the entire conversation history to OpenAI API
-        response = client.beta.assistants.chat(
+        response = client.beta.assistants.create(
             assistant_id=assistant_id,
             messages=history
         )
