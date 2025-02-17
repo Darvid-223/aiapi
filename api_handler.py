@@ -11,6 +11,8 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
+ASSISTANT_ID = os.environ.get("ASSISTANT_ID")
+
 def generate_response(history: list, model: str = "ft:gpt-4o-2024-08-06:pa-publishing:my-experiment:B1uRZDlq") -> str:
     """
     Generates a response from OpenAI based on the provided conversation history.
