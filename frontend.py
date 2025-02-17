@@ -1,6 +1,5 @@
 import streamlit as st
 from api_handler import generate_response
-from connect_to_db import query_database
 from conversation_logger import configure_papertrail_logging
 
 # Configure papertrail-logging
