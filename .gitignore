@@ -2,3 +2,4 @@
 venv/
 kladd.txt
 conversation_log.tx
+create_assistant.py
