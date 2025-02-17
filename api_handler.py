@@ -12,7 +12,7 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
-def generate_response(history: list, model: str = "gpt-3.5-turbo") -> str:
+def generate_response(history: list, model: str = "ft:gpt-4o-2024-08-06:pa-publishing:my-experiment:B1uRZDlq") -> str:
     """
     Generates a response from OpenAI based on the provided conversation history.
     Includes a system message defining the assistant's role.
@@ -37,7 +37,7 @@ def generate_response(history: list, model: str = "gpt-3.5-turbo") -> str:
 
 
 if __name__ == "__main__":
-    # Initialize conversation history with a system message
+    # Initialize conversation history with a system message if 'API_handler.py' is executed
     conversation_history = [
         {"role": "system", "content": (
             "You are an assistant for a workplace called 'Eklunda kommun'. Your purpose is to help employees "
