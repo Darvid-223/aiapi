@@ -13,10 +13,7 @@ st.title("PA Navigator")
 if "history" not in st.session_state:
     st.session_state["history"] = [
         {"role": "system", "content": (
-            "Du är en assistent för en organisation som heter 'Eklunda kommun'. Ditt syfte är att hjälpa anställda "
-            "att hitta information om organisationen och dess personal. Du har tillgång till en PostgreSQL-databas "
-            "som innehåller detaljerad information om anställda, såsom deras namn, roller, ålder och kön. "
-            "Använd denna databas när du svarar på frågor om specifika personer. "
+            ""
         )}
     ]
 
