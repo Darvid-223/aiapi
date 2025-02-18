@@ -7,6 +7,7 @@ logger = configure_papertrail_logging()
 
 # Streamlit app
 st.title("PA Navigator")
+st.text("OBS: Allt som skrivs här loggas.")
 
 # Maintain conversation history
 if "history" not in st.session_state:
