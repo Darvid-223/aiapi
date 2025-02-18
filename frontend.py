@@ -8,7 +8,7 @@ logger = configure_papertrail_logging()
 st.title("PA Navigator")
 
 # Visa en notis om att all input loggas
-st.info("Observera: Allt du skriver här loggas för att vi ska kunna förbättra tjänsten.")
+st.info("Observera: Allt du skriver här loggas för att kunna förbättra tjänsten.")
 
 
 # Inputfält för användarens fråga
