@@ -8,7 +8,7 @@ logger = configure_papertrail_logging()
 st.title("PA Navigator")
 
 # Inputfält för användarens fråga
-user_input = st.text_input("Skriv din fråga:", key="user_input")
+user_input = st.text_input("Skriv din fråga:          Observera: Allt du skriver här loggas för att vi ska kunna förbättra tjänsten. ", key="user_input")
 
 # Knapp för att skicka frågan
 if st.button("Skicka fråga"):
