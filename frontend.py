@@ -61,13 +61,3 @@ def generate_response(user_input: str) -> str:
     
     return message_content.strip()
 
-if __name__ == "__main__":
-    # Terminalbaserat exempel
-    while True:
-        user_input = input("What's your question?\n")
-        if user_input.lower() in ["exit", "quit"]:
-            break
-        response = generate_response(user_input)
-        print("\nAssistant:")
-        print(response)
-        print("\n")
