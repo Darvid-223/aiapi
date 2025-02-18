@@ -1,63 +1,23 @@
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
+import streamlit as st
+from api_custom_model import generate_response
+from conversation_logger import configure_papertrail_logging
 
-load_dotenv()
+# Konfigurera logging
+logger = configure_papertrail_logging()
 
-API_KEY = os.environ.get("OPENAI_API_KEY")
-ASSISTANT_ID = os.environ.get("ASSISTANT_ID")
+st.title("PA Navigator")
 
-client = OpenAI(api_key=API_KEY)
+# Inputfält för användarens fråga
+user_input = st.text_input("Skriv din fråga:", key="user_input")
 
-assistant = client.beta.assistants.update(
-    assistant_id=ASSISTANT_ID,
-)
-
-
-# Global variabel för att spara en thread
-_thread = None
-
-def get_thread():
-    """Returnerar den nuvarande tråden, eller skapar en ny om den inte finns."""
-    global _thread
-    if _thread is None:
-        _thread = client.beta.threads.create()
-        print(f"Created new thread with id: {_thread.id}")
-    return _thread
-
-def reset_thread():
-    """Återställer tråden, så att en ny skapas vid nästa anrop."""
-    global _thread
-    _thread = None
-    print("Thread reset.")
-
-def generate_response(user_input: str) -> str:
-    """
-    Generates a response from the assistant using beta-threads.
-    The function adds the user's message to the thread, runs the assistant,
-    and returns the assistant's response.
-    """
-    thread = get_thread()
-    
-    # Lägg till användarens meddelande i threaden
-    client.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content=user_input,
-    )
-    
-    # Kör assistenten på threaden och poll:a på ett svar
-    run = client.beta.threads.runs.create_and_poll(
-        thread_id=thread.id,
-        assistant_id=assistant.id,
-    )
-    
-    messages = list(client.beta.threads.messages.list(thread_id=thread.id, run_id=run.id))
-    try:
-        # Här antar vi att svaret finns i messages[0].content[0].text.value
-        message_content = messages[0].content[0].text.value
-    except Exception as e:
-        raise Exception(f"Could not parse response: {e}")
-    
-    return message_content.strip()
-
+# Knapp för att skicka frågan
+if st.button("Skicka fråga"):
+    if user_input:
+        try:
+            response = generate_response(user_input)
+            st.write("**Du:**", user_input)
+            st.write("**PA Navigator:**", response)
+            logger.info(f"User Prompt: {user_input}")
+            logger.info(f"Assistant Response: {response}")
+        except Exception as e:
+            st.error(f"Ett fel inträffade: {e}")
