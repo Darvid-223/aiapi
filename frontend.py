@@ -9,13 +9,10 @@ ASSISTANT_ID = os.environ.get("ASSISTANT_ID")
 
 client = OpenAI(api_key=API_KEY)
 
-# Uppdatera assistenten med ett existerande vector store-ID (från dashboard)
-vector_store_id_from_dashboard = "vs_67b4eee76d808191ad52c5f88ab42aed"
 assistant = client.beta.assistants.update(
     assistant_id=ASSISTANT_ID,
-    tool_resources={"file_search": {"vector_store_ids": [vector_store_id_from_dashboard]}},
 )
-print("Assistant updated with vector store.")
+
 
 # Global variabel för att spara en thread
 _thread = None
