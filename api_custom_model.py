@@ -13,7 +13,8 @@ client = OpenAI(api_key=API_KEY)
 assistant = client.beta.assistants.update(
     assistant_id=ASSISTANT_ID,
 )
-
+print("Assistant model:", assistant.model)
+print("System message:", assistant.instructions)
 # Global variabel för att spara en thread
 _thread = None
 
