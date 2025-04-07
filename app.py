@@ -1,6 +1,7 @@
+import os
+import re
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -30,6 +31,10 @@ def reset_thread():
     _thread = None
     print("Thread reset.")
 
+def clean_response(text: str) -> str:
+    # Tar bort alla citationer i formatet:  
+    return re.sub(r"【.*?†.*?】", "", text).strip()
+
 # Generera svar
 def generate_response(user_input: str) -> str:
     thread = get_thread()
@@ -44,7 +49,8 @@ def generate_response(user_input: str) -> str:
     )
     messages = list(client.beta.threads.messages.list(thread_id=thread.id, run_id=run.id))
     try:
-        return messages[0].content[0].text.value.strip()
+        raw_text = messages[0].content[0].text.value
+        return clean_response(raw_text)
     except Exception as e:
         return "Kunde inte tolka svaret."
 
