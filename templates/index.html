@@ -3,87 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Chatbot</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f7f7f8;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    #chat-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .message {
-      max-width: 600px;
-      width: 100%;
-      padding: 12px 16px;
-      margin: 8px 0;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .user {
-      background-color: #e5e7eb;
-      align-self: flex-end;
-      text-align: right;
-    }
-
-    .bot {
-      background-color: #d1e8ff;
-      align-self: flex-start;
-      text-align: left;
-    }
-
-    #chat-input-container {
-      display: flex;
-      justify-content: center;
-      padding: 16px;
-      border-top: 1px solid #ddd;
-      background-color: #fff;
-    }
-
-    #chat-input {
-      display: flex;
-      max-width: 800px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-
-    #chat-text {
-      flex: 1;
-      border: none;
-      padding: 12px 16px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    #send-btn {
-      border: none;
-      background-color: #007bff;
-      color: white;
-      padding: 0 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #send-btn:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
@@ -96,56 +16,10 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const input = document.getElementById("chat-text");
-      const button = document.getElementById("send-btn");
+  <p style="text-align:center; color:#888; font-size:12px;">
+    Version: {{ version }}
+  </p>
 
-      button.addEventListener("click", sendMessage);
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          sendMessage();
-        }
-      });
-    });
-
-    async function sendMessage() {
-      const input = document.getElementById("chat-text");
-      const message = input.value.trim();
-      if (!message) return;
-
-      addMessage("Du", message, "user");
-      input.value = "";
-
-      try {
-        const res = await fetch("https://aiapi-ih0x.onrender.com/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message })
-        });
-
-        if (!res.ok) {
-          throw new Error("HTTP-fel: " + res.status);
-        }
-
-        const data = await res.json();
-        addMessage("Navigator", data.reply || "Inget svar.", "bot");
-
-      } catch (err) {
-        console.error("🛑 FEL:", err);
-        addMessage("Fel", "Det gick inte att kontakta servern: " + err.message, "bot");
-      }
-    }
-
-    function addMessage(sender, text, cls) {
-      const chat = document.getElementById("chat-container");
-      const msg = document.createElement("div");
-      msg.className = `message ${cls}`;
-      msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
-      chat.appendChild(msg);
-      chat.scrollTop = chat.scrollHeight;
-    }
-  </script>
-
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
