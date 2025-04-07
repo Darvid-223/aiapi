@@ -66,6 +66,9 @@ def chat():
         print("❌ Fel i generate_response:", e)
         return jsonify({"error": "Serverfel", "details": str(e)}), 500
 
+@app.route("/")
+def index():
+    return "✅ API:n är igång! Besök /chat med POST."
 
 if __name__ == "__main__":
     app.run(debug=True)
