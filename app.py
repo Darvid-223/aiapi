@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
 from openai import OpenAI
@@ -68,7 +68,7 @@ def chat():
 
 @app.route("/")
 def index():
-    return "✅ API:n är igång! Besök /chat med POST."
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
