@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   
       const data = await res.json();
-      addMessage("AI", data.reply || "Inget svar.", "bot");
+      addMessage("Navigator", data.reply || "Inget svar.", "bot");
   
     } catch (err) {
       console.error("🛑 FEL:", err);
