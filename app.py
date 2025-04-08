@@ -31,49 +31,58 @@ chat_agent = Agent(
 # Enkel minnesstruktur (session_id -> lista med meddelanden)
 chat_sessions = {}
 
-# Läs JSON och bygg prompt
-def build_prompt_with_json(user_input):
+# Hjälp: läs JSON och returnera en textsnutt
+
+def read_json_file(filepath, max_items=10):
     try:
-        with open("db/employees.json", "r", encoding="utf-8") as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             data = json.load(f)
+            return json.dumps(data[:max_items], indent=2, ensure_ascii=False)
     except Exception as e:
-        return f"⚠️ Kunde inte läsa filen: {e}"
-
-    data_snippet = json.dumps(data, indent=2, ensure_ascii=False)
-
-    return f"""
-Du har tillgång till en databas över anställda i JSON-format.
-
-{data_snippet}
-
-Fråga: {user_input}
-Svara utifrån informationen ovan.
-"""
+        return f"⚠️ Kunde inte läsa filen {filepath}: {e}"
 
 
 def clean_response(text: str) -> str:
     return re.sub(r"【.*?†.*?】", "", text).strip()
 
 
-# Bygg prompt från historik
+# Bygg prompt från historik + datafiler
 def get_memory_prompt(session_id, new_input):
     if session_id not in chat_sessions:
         chat_sessions[session_id] = []
 
     history = chat_sessions[session_id]
     history.append(f"Användare: {new_input}")
-    prompt = "\n".join(history)
+
+    employees_data = read_json_file("db/employees.json")
+    brukare_data = read_json_file("db/brukare.json")
+
+    prompt = f"""
+Här är information om anställda (utdrag):
+{employees_data}
+
+Här är information om brukare (utdrag):
+{brukare_data}
+
+Tidigare konversation:
+{chr(10).join(history)}
+
+Svara utifrån informationen ovan och på ett vänligt, informativt sätt.
+"""
+
     return prompt
 
 
 # Spara agentsvar
 def save_response_to_memory(session_id, agent_response):
+    if session_id not in chat_sessions:
+        chat_sessions[session_id] = []
     chat_sessions[session_id].append(f"Agent: {agent_response}")
 
 
 # Async körning av agent
 async def async_generate_response(session_id, user_input):
-    full_prompt = build_prompt_with_json(user_input)
+    full_prompt = get_memory_prompt(session_id, user_input)
     result = await Runner.run(chat_agent, input=full_prompt)
     reply = clean_response(result.final_output)
     save_response_to_memory(session_id, reply)
