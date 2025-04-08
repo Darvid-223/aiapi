@@ -3,10 +3,14 @@ from app import app
 from app.agents import generate_response
 import asyncio
 
+# Flask-rutter för att hantera HTTP-förfrågningar
+# och svara med JSON-data eller HTML-sidor.
 @app.route("/")
 def index():
     return render_template("index.html")
 
+# Flask-rutter för att hantera chat-meddelanden
+# och svara med JSON-data.
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()

@@ -6,5 +6,6 @@ load_dotenv()
 
 debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
 
+# Starta Flask-appen
 if __name__ == "__main__":
     app.run(debug=debug_mode)

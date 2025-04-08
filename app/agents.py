@@ -16,6 +16,10 @@ chat_agent = Agent(
     model="gpt-4-turbo",
 )
 
+# Funktion för att generera svar baserat på användarens inmatning
+# och information från JSON-filerna.
+# Denna funktion läser in data från två JSON-filer och skickar dem till agenten
+# tillsammans med användarens fråga.
 async def generate_response(user_input: str) -> str:
     employees_data = read_json_file("db/employees.json")
     brukare_data = read_json_file("db/brukare.json")
