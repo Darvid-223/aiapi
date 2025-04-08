@@ -42,9 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const chat = document.getElementById("chat-container");
     const msg = document.createElement("div");
     msg.className = `message ${cls}`;
-    msg.innerHTML = `${text}`;
+  
+    if (cls === "bot") {
+      msg.innerHTML = marked.parse(text);
+    } else {
+      msg.textContent = text;  // undvik XSS
+    }
+  
     chat.appendChild(msg);
     chat.scrollTop = chat.scrollHeight;
-  }  
+  }
+  
   
   
