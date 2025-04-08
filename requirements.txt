@@ -6,3 +6,4 @@ flask
 flask-cors
 gunicorn
 jinja2
+openai-agents
