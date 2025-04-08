@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background-color: #0d1924;
+  background-color: #1e1e2f;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -28,15 +28,15 @@ body {
 }
 
 .user {
-  background-color: #2484e4;
-  color: white; /* <-- Användarens textfärg */
+  background-color: #4a90e2; /* ChatGPT:s blåton */
+  color: white;
   align-self: flex-end;
   text-align: right;
 }
 
 .bot {
-  background-color: #2484e4;
-  color: white; /* <-- Botens textfärg */
+  background-color: #2a2b3c;
+  color: #ffffff;  
   align-self: flex-start;
   text-align: left;
 }
@@ -46,15 +46,15 @@ body {
   display: flex;
   justify-content: center;
   padding: 16px;
-  border-top: 1px solid #0d1924;
-  background-color: #0d1924;
+  background-color: #1e1e2f;
+  border-top: 1px solid #2f2f3d;  
 }
 
 #chat-input {
   display: flex;
   max-width: 800px;
   width: 100%;
-  border: 1px solid #0d1924;
+  border: 1px solid #3a3a4a;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -69,7 +69,7 @@ body {
 }
 
 #send-btn {
-  background: linear-gradient(135deg, #4f46e5, #396cbe);
+  background: linear-gradient(135deg, #10a37f, #3a9d9d); /* Inspirerat av GPT-loggans gröna ton */
   color: white;
   border: none;
   padding: 0 24px;
@@ -82,7 +82,7 @@ body {
 }
 
 #send-btn:hover {
-  background: linear-gradient(135deg, #4338ca, #2563eb);
+  background: linear-gradient(135deg, #0f8e6d, #338888);
 }
 
 #send-btn:active {
