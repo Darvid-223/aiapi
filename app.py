@@ -14,7 +14,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 # Flask-app
 app = Flask(__name__)
-CORS(app)  # Tillåt anrop från frontend
+CORS(app)
 
 # Agent-definition
 chat_agent = Agent(
@@ -28,16 +28,13 @@ chat_agent = Agent(
     model="gpt-4-turbo",
 )
 
-# Enkel minnesstruktur (session_id -> lista med meddelanden)
-chat_sessions = {}
-
 # Hjälp: läs JSON och returnera en textsnutt
 
-def read_json_file(filepath, max_items=10):
+def read_json_file(filepath, max_items=None):
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             data = json.load(f)
-            return json.dumps(data[:max_items], indent=2, ensure_ascii=False)
+            return json.dumps(data if max_items is None else data[:max_items], indent=2, ensure_ascii=False)
     except Exception as e:
         return f"⚠️ Kunde inte läsa filen {filepath}: {e}"
 
@@ -46,47 +43,20 @@ def clean_response(text: str) -> str:
     return re.sub(r"【.*?†.*?】", "", text).strip()
 
 
-# Bygg prompt från historik + datafiler
-def get_memory_prompt(session_id, new_input):
-    if session_id not in chat_sessions:
-        chat_sessions[session_id] = []
-
-    history = chat_sessions[session_id]
-    history.append(f"Användare: {new_input}")
-
+# Async körning av agent
+async def async_generate_response(user_input):
     employees_data = read_json_file("db/employees.json")
     brukare_data = read_json_file("db/brukare.json")
 
-    prompt = f"""
-Här är information om anställda (utdrag):
-{employees_data}
+    system_context = f"Information om anställda: {employees_data}. Information om brukare: {brukare_data}"
 
-Här är information om brukare (utdrag):
-{brukare_data}
+    messages = [
+        {"role": "system", "content": system_context},
+        {"role": "user", "content": user_input}
+    ]
 
-Tidigare konversation:
-{chr(10).join(history)}
-
-Svara utifrån informationen ovan och på ett vänligt, informativt sätt.
-"""
-
-    return prompt
-
-
-# Spara agentsvar
-def save_response_to_memory(session_id, agent_response):
-    if session_id not in chat_sessions:
-        chat_sessions[session_id] = []
-    chat_sessions[session_id].append(f"Agent: {agent_response}")
-
-
-# Async körning av agent
-async def async_generate_response(session_id, user_input):
-    full_prompt = get_memory_prompt(session_id, user_input)
-    result = await Runner.run(chat_agent, input=full_prompt)
-    reply = clean_response(result.final_output)
-    save_response_to_memory(session_id, reply)
-    return reply
+    result = await Runner.run(chat_agent, input=messages)
+    return clean_response(result.final_output)
 
 
 # API endpoint
@@ -94,7 +64,6 @@ async def async_generate_response(session_id, user_input):
 def chat():
     data = request.get_json()
     user_input = data.get("message", "")
-    session_id = data.get("session_id") or str(uuid.uuid4())
 
     if not user_input:
         return jsonify({"error": "Tomt meddelande"}), 400
@@ -102,8 +71,8 @@ def chat():
     try:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        reply = loop.run_until_complete(async_generate_response(session_id, user_input))
-        return jsonify({"reply": reply, "session_id": session_id})
+        reply = loop.run_until_complete(async_generate_response(user_input))
+        return jsonify({"reply": reply})
     except Exception as e:
         print("❌ Fel:", e)
         return jsonify({"error": "Serverfel", "details": str(e)}), 500
