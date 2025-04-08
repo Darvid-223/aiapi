@@ -77,4 +77,38 @@ body {
   #send-btn:hover {
     background-color: #0056b3;
   }
+
+  @media (max-width: 600px) {
+    #chat-container {
+      padding: 10px;
+    }
+  
+    .message {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
+  
+    #chat-input-container {
+      padding: 12px;
+    }
+  
+    #chat-input {
+      flex-direction: column;
+      border-radius: 12px;
+    }
+  
+    #chat-text {
+      font-size: 14px;
+      padding: 10px;
+      width: 100%;
+    }
+  
+    #send-btn {
+      margin-top: 8px;
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 8px;
+    }
+  }
   
