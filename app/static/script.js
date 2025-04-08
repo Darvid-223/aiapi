@@ -42,8 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const chat = document.getElementById("chat-container");
     const msg = document.createElement("div");
     msg.className = `message ${cls}`;
-    msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
+    msg.innerHTML = `${text}`;
     chat.appendChild(msg);
     chat.scrollTop = chat.scrollHeight;
-  }
+  }  
+  
   

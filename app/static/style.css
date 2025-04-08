@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: "Segoe UI", sans-serif;
-    background-color: #f7f7f8;
+    background-color: #0d1924;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -28,30 +28,33 @@ body {
   }
   
   .user {
-    background-color: #e5e7eb;
+    background-color: #2484e4;
+    color: white; /* <-- Användarens textfärg */
     align-self: flex-end;
     text-align: right;
   }
   
   .bot {
-    background-color: #d1e8ff;
+    background-color: #2484e4;
+    color: white; /* <-- Botens textfärg */
     align-self: flex-start;
     text-align: left;
   }
+  
   
   #chat-input-container {
     display: flex;
     justify-content: center;
     padding: 16px;
-    border-top: 1px solid #ddd;
-    background-color: #fff;
+    border-top: 1px solid #0d1924;
+    background-color: #0d1924;
   }
   
   #chat-input {
     display: flex;
     max-width: 800px;
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid #0d1924;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -66,17 +69,25 @@ body {
   }
   
   #send-btn {
-    border: none;
-    background-color: #007bff;
+    background: linear-gradient(135deg, #4f46e5, #396cbe);
     color: white;
-    padding: 0 20px;
+    border: none;
+    padding: 0 24px;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    border-radius: 0 20px 20px 0;
+    height: 100%;
   }
   
   #send-btn:hover {
-    background-color: #0056b3;
+    background: linear-gradient(135deg, #4338ca, #2563eb);
   }
+  
+  #send-btn:active {
+    transform: scale(0.97);
+  }  
 
   @media (max-width: 600px) {
     #chat-container {
