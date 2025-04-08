@@ -120,37 +120,73 @@ body {
   color: #ffffff;
 }
 
-/* Anpassad för mobil */
-@media (max-width: 600px) {
-  #chat-container {
-    padding: 10px;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111827;
+  color: white;
+  padding: 12px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+}
+
+#nav-menu ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#nav-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+#nav-menu {
+  display: flex;
+}
+
+/* Mobilanpassning */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
   }
 
-  .message {
-    font-size: 14px;
-    padding: 10px 12px;
-  }
-
-  #chat-input-container {
-    padding: 12px;
-  }
-
-  #chat-input {
+  #nav-menu {
+    display: none;
+    width: 100%;
     flex-direction: column;
-    border-radius: 12px;
+    background-color: #1f2937;
+    position: absolute;
+    top: 60px;
+    left: 0;
   }
 
-  #chat-text {
-    font-size: 14px;
+  #nav-menu.show {
+    display: block;
+  }
+
+  #nav-menu ul {
+    flex-direction: column;
     padding: 10px;
-    width: 100%;
   }
 
-  #send-btn {
-    margin-top: 8px;
-    width: 100%;
-    padding: 12px;
-    font-size: 15px;
-    border-radius: 8px;
+  #nav-menu li {
+    margin-bottom: 10px;
   }
 }
