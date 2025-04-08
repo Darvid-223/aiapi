@@ -35,14 +35,6 @@ def clean_response(text: str) -> str:
     # Tar bort alla citationer i formatet:  
     return re.sub(r"【.*?†.*?】", "", text).strip()
 
-# Hämta versionsnummer
-def get_git_commit_hash():
-    try:
-        with open("version.txt", "r") as f:
-            return f.read().strip()
-    except Exception:
-        return "okänd"
-
 # Generera svar
 def generate_response(user_input: str) -> str:
     thread = get_thread()
@@ -82,8 +74,7 @@ def chat():
 
 @app.route("/")
 def index():
-    version = get_git_commit_hash()
-    return render_template("index.html", version=version)
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
