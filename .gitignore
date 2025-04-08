@@ -1,4 +1,15 @@
-.env
+# Environments
+env/
 venv/
+.env
+
 kladd.txt
 conversation_log.tx
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS/system files
+.DS_Store
+*.log.devcontainer/
