@@ -1,80 +1,87 @@
 import os
 import re
+import uuid
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from openai import OpenAI
 from dotenv import load_dotenv
+from agents import Agent, Runner
+import asyncio
 
-# Ladda miljövariabler
+# Miljövariabler
 load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
 
-API_KEY = os.environ.get("OPENAI_API_KEY")
-ASSISTANT_ID = os.environ.get("ASSISTANT_ID")
-
-client = OpenAI(api_key=API_KEY)
 
 # Flask-app
 app = Flask(__name__)
-CORS(app)  # Tillåt anrop från frontend (t.ex. från Squarespace)
+CORS(app)  # Tillåt anrop från frontend
 
-# Hämta/återställ tråd
-_thread = None
-def get_thread():
-    global _thread
-    if _thread is None:
-        _thread = client.beta.threads.create()
-        print(f"Created new thread: {_thread.id}")
-    return _thread
 
-def reset_thread():
-    global _thread
-    _thread = None
-    print("Thread reset.")
+# Agent-definition
+chat_agent = Agent(
+    name="Navigator",
+    instructions="Du är en assistent för Eklunda kommun med tillgång till fil-sökverktyg. Använd de uppladdade dokumenten för att svara på frågor om organisationen, anställda eller brukare och annat relevant. Du svarar som att du är en anställd assistent, inte som en dator.",
+    model="gpt-4-turbo",  # eller gpt-3.5-turbo om du vill
+)
+
+
+# Enkel minnesstruktur (session_id -> lista med meddelanden)
+chat_sessions = {}
+
 
 def clean_response(text: str) -> str:
-    # Tar bort alla citationer i formatet:  
     return re.sub(r"【.*?†.*?】", "", text).strip()
 
-# Generera svar
-def generate_response(user_input: str) -> str:
-    thread = get_thread()
-    client.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content=user_input,
-    )
-    run = client.beta.threads.runs.create_and_poll(
-        thread_id=thread.id,
-        assistant_id=ASSISTANT_ID,
-    )
-    messages = list(client.beta.threads.messages.list(thread_id=thread.id, run_id=run.id))
-    try:
-        raw_text = messages[0].content[0].text.value
-        return clean_response(raw_text)
-    except Exception as e:
-        return "Kunde inte tolka svaret."
 
-# Route för frontend att anropa
+# Bygg prompt från historik
+def get_memory_prompt(session_id, new_input):
+    if session_id not in chat_sessions:
+        chat_sessions[session_id] = []
+    
+    history = chat_sessions[session_id]
+    history.append(f"Användare: {new_input}")
+    prompt = "\n".join(history)
+    return prompt
+
+
+# Spara agentsvar
+def save_response_to_memory(session_id, agent_response):
+    chat_sessions[session_id].append(f"Agent: {agent_response}")
+
+
+# Async körning av agent
+async def async_generate_response(session_id, user_input):
+    prompt = get_memory_prompt(session_id, user_input)
+    result = await Runner.run(chat_agent, input=prompt)
+    reply = clean_response(result.final_output)
+    save_response_to_memory(session_id, reply)
+    return reply
+
+
+# API endpoint
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
-    print("🟡 Fick POST-anrop:", data)  # <-- Lägg till denna rad
+    user_input = data.get("message", "")
+    session_id = data.get("session_id") or str(uuid.uuid4())  # generera nytt om inget skickas
 
-    user_message = data.get("message", "")
-    if not user_message:
+    if not user_input:
         return jsonify({"error": "Tomt meddelande"}), 400
 
     try:
-        reply = generate_response(user_message)
-        print("🟢 Svar från OpenAI:", reply)  # <-- och denna
-        return jsonify({"reply": reply})
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        reply = loop.run_until_complete(async_generate_response(session_id, user_input))
+        return jsonify({"reply": reply, "session_id": session_id})
     except Exception as e:
-        print("❌ Fel i generate_response:", e)
+        print("❌ Fel:", e)
         return jsonify({"error": "Serverfel", "details": str(e)}), 500
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
+debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=debug_mode)
