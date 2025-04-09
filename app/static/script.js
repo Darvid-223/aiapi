@@ -44,7 +44,7 @@ function addMessage(cls, text) {
   msg.className = `message ${cls}`;
 
   if (cls === "bot") {
-    msg.innerHTML = marked.parse(text); // rendera markdown
+    msg.textContent = text.trim();
   } else {
     msg.textContent = text; // ingen HTML för user
   }
