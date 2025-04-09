@@ -28,17 +28,31 @@ body {
 }
 
 .user {
-  background-color: #4a90e2; /* ChatGPT:s blåton */
+  background-color: #4a90e2;
   color: white;
   align-self: flex-end;
   text-align: right;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 10px;
+  /* ev. lägg till line-height: 1.5; */
 }
 
 .bot {
   background-color: #2a2b3c;
-  color: #ffffff;  
+  color: white;
   align-self: flex-start;
   text-align: left;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 10px;
+  /* ev. lägg till line-height: 1.5; */
+}
+
+
+.message.bot p:last-child {
+  margin-top: -1px;
+  margin-bottom: -18px;
 }
 
 
@@ -114,6 +128,7 @@ body {
   list-style-type: disc;
 }
 
+
 /* Gör fetstil i markdown tydlig */
 .message.bot strong {
   font-weight: 600;
@@ -137,28 +152,38 @@ header {
   font-weight: bold;
 }
 
-.hamburger {
-  font-size: 24px;
-  cursor: pointer;
+
+/* Loading indicator */
+#loading-indicator {
   display: none;
+  text-align: center;
 }
 
-#nav-menu ul {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+#loading-indicator span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+  background-color: #3498db;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
 }
 
-#nav-menu a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
+#loading-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
 }
 
-#nav-menu {
-  display: flex;
+#loading-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 
 /* Mobilanpassning */
@@ -209,52 +234,6 @@ header {
     align-items: flex-start;
   }
 
-  .hamburger {
-    font-size: 30px;
-    padding: 12px;
-  }
-
-  #nav-menu ul {
-    flex-direction: column;
-    padding: 14px;
-    font-size: 18px;
-  }
-
-  #nav-menu li {
-    margin-bottom: 14px;
-  }
 }
 
-/* Loading indicator */
-#loading-indicator {
-  display: none;
-  text-align: center;
-}
-
-#loading-indicator span {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin: 0 2px;
-  background-color: #3498db;
-  border-radius: 50%;
-  animation: blink 1.4s infinite both;
-}
-
-#loading-indicator span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-#loading-indicator span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes blink {
-  0%, 80%, 100% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-}
 

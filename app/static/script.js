@@ -44,19 +44,14 @@ function addMessage(cls, text) {
   msg.className = `message ${cls}`;
 
   if (cls === "bot") {
-    msg.textContent = text.trim();
+    msg.innerHTML = marked.parse(text.trim());
+    //msg.textContent = text.trim();
   } else {
     msg.textContent = text; // ingen HTML för user
   }
 
   chat.appendChild(msg);
   chat.scrollTop = chat.scrollHeight;
-}
-
-
-function toggleMenu() {
-  const menu = document.getElementById("nav-menu");
-  menu.classList.toggle("show");
 }
 
 
