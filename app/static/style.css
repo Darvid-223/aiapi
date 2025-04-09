@@ -50,11 +50,6 @@ body {
 }
 
 
-.message.bot p:last-child {
-  margin-top: -1px;
-  margin-bottom: -18px;
-}
-
 
 #chat-input-container {
   display: flex;
@@ -237,3 +232,16 @@ header {
 }
 
 
+/* Ta bort extra utrymme efter sista paragraf eller lista i botens meddelande */
+.message.bot p:last-child,
+.message.bot ul:last-child,
+.message.bot ol:last-child {
+  margin-top: -1px;
+  margin-bottom: -18px;
+}
+
+
+.message.bot p:last-child {
+  margin-top: -1px;
+  margin-bottom: -18px;
+}
