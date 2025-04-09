@@ -181,57 +181,6 @@ header {
   }
 }
 
-/* Mobilanpassning */
-@media (max-width: 600px) {
-  body {
-    font-size: 18px;
-  }
-
-  #chat-container {
-    padding: 16px;
-  }
-
-  .message {
-    font-size: 18px;
-    padding: 16px 20px;
-    margin: 12px 0;
-    border-radius: 22px;
-    max-width: 95%;
-  }
-
-  #chat-input-container {
-    padding: 14px;
-    background-color: #1e1e2f;
-    border-top: 1px solid #2f2f3d;
-  }
-
-  #chat-input {
-    flex-direction: row;
-    border-radius: 24px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-  }
-
-  #chat-text {
-    padding: 16px;
-    font-size: 18px;
-    width: 100%;
-  }
-
-  #send-btn {
-    padding: 0 24px;
-    font-size: 18px;
-    height: auto;
-    border-radius: 0 24px 24px 0;
-  }
-
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-}
-
-
 /* Ta bort extra utrymme efter sista paragraf eller lista i botens meddelande */
 .message.bot p:last-child,
 .message.bot ul:last-child,
@@ -245,3 +194,84 @@ header {
   margin-top: -1px;
   margin-bottom: -18px;
 }
+
+
+/* Mobilanpassning */
+@media (max-width: 600px) {
+  body {
+    font-size: 20px;
+  }
+
+  #chat-container {
+    padding: 16px;
+    padding-bottom: 100px; /* För att inte content hamnar bakom inputfältet */
+  }
+
+  .message {
+    font-size: 15px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    border-radius: 22px;
+    max-width: 90%;
+  }
+
+  #chat-input-container {
+    padding: 14px;
+    background-color: #1e1e2f;
+    border-top: 1px solid #2f2f3d;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+  }
+
+  #chat-input {
+    display: flex;
+    flex-direction: row;
+    border-radius: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0; /* ❗ Viktigt: tar bort allt mellanrum */
+    border: none; /* För säkerhets skull */
+  }
+
+  #chat-text {
+    padding: 16px;
+    font-size: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 24px 0 0 24px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  #send-btn {
+    padding: 0 16px;
+    font-size: 20px;
+    height: auto;
+    border-radius: 0 24px 24px 0;
+    background: linear-gradient(135deg, #10a37f, #3a9d9d);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    white-space: nowrap;
+  }
+
+  #send-btn:hover {
+    background: linear-gradient(135deg, #0f8e6d, #338888);
+  }
+
+  #send-btn:active {
+    transform: scale(0.97);
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
