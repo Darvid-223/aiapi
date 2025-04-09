@@ -21,14 +21,20 @@
   
   
   <div id="chat-container"></div>
-
+  <div id="loading-indicator" class="loading">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <div id="chat-input-container">
+
     <div id="chat-input">
       <input type="text" id="chat-text" placeholder="Skriv ett meddelande..." />
       <button id="send-btn">Skicka</button>
     </div>
   </div>
 
+  
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
