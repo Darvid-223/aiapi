@@ -219,7 +219,7 @@ header {
   }
 
   #chat-input-container {
-    padding: 14px;
+    padding: 10px;
     background-color: #1e1e2f;
     border-top: 1px solid #2f2f3d;
     width: 100%;
@@ -242,20 +242,20 @@ header {
   }
 
   #chat-text {
-    padding: 16px;
-    font-size: 20px;
+    padding: 10px 14px;
+    font-size: 18px;
     width: 100%;
     border: none;
-    border-radius: 24px 0 0 24px;
+    border-radius: 20px 0 0 20px;
     outline: none;
     box-sizing: border-box;
   }
 
   #send-btn {
-    padding: 0 16px;
-    font-size: 20px;
+    padding: 0 18px;
+    font-size: 18px;
     height: auto;
-    border-radius: 0 24px 24px 0;
+    border-radius: 0 20px 20px 0;
     background: linear-gradient(135deg, #10a37f, #3a9d9d);
     color: white;
     border: none;
