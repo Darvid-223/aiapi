@@ -36,7 +36,4 @@ async def generate_response(user_input: str) -> str:
     ]
 
     result = await Runner.run(chat_agent, input=messages)
-
-
     return clean_response(result.final_output)
-
