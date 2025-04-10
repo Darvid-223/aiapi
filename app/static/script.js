@@ -1,3 +1,14 @@
+function setVH() {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', setVH);
+window.addEventListener('orientationchange', setVH);
+setVH();
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("chat-text");
   const button = document.getElementById("send-btn");

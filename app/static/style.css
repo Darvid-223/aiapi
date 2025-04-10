@@ -202,6 +202,7 @@ header {
 /* Mobilanpassning */
 @media (max-width: 600px) {
   body {
+    height: calc(var(--vh, 1vh) * 100); /* Endast på mobil */
     font-size: 20px;
   }
 
