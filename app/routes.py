@@ -28,7 +28,7 @@ def chat():
 
         reply = loop.run_until_complete(generate_response(user_input))
 
-        save_message("bot", reply)
+        save_message("assistant", reply)
 
         # 🔽 Test: skriv ut hela loggen till terminalen
         print("🧠 FULL LOGG:")
