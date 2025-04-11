@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: eklunda-web
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - LOCAL_DEV=false
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - VECTOR_ID=${VECTOR_ID}
+    restart: unless-stopped
