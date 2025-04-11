@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from agents import Agent, Runner
+from agents import Agent, Runner, ModelSettings
 from app.utils import read_json_file, clean_response
 from app.memory import save_message, get_full_log
 
@@ -19,6 +19,8 @@ chat_agent = Agent(
     # gpt-4o-mini
     # gpt-4o-turbo-preview
     # gpt-4o-turbo
+    model_settings=ModelSettings(temperature=0.3),
+
 )
 
 # Funktion för att generera svar baserat på användarens inmatning
