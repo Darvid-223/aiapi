@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from agents import Agent, Runner, ModelSettings, FileSearchTool
+from agents import Agent, Runner, ModelSettings, FileSearchTool, WebSearchTool
 from app.utils import clean_response
 from app.memory import save_message, get_full_log
 
@@ -25,7 +25,9 @@ chat_agent = Agent(
     tools=[
         FileSearchTool(
             vector_store_ids=[vector_id],
-        )
+            
+        ),
+        WebSearchTool(),
     ]
 )
 
