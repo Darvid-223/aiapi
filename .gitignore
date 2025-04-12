@@ -1,15 +1,30 @@
-# Environments
-env/
-venv/
-.env
-
-kladd.txt
-conversation_log.tx
-
-# Python cache
+# Python
 __pycache__/
 *.py[cod]
+*.sqlite3
+*.log
+*.env
+.env.*
 
-# OS/system files
+# Virtual environments
+venv/
+env/
+
+# macOS
 .DS_Store
-*.log.devcontainer/
+
+# VS Code
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Docker
+*.pid
+*.tgz
+docker-compose.override.yml
+
+# Kladd
+kladd.txt
