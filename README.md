@@ -23,6 +23,4 @@ Här är en översikt av de viktigaste delarna i projektet:
 - `.env` – Miljövariabler (API-nycklar etc., ingår inte i Git).
 - `.gitignore` – Anger vilka filer och mappar som ska ignoreras i Git.
 - `Procfile` – Används för att starta appen i Render.
-- `Dockerfile` – Bygger appens produktionscontainer.
-- `docker-compose.yml` – Docker-konfiguration för att köra appen.
 
