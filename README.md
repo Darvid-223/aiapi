@@ -25,5 +25,4 @@ Här är en översikt av de viktigaste delarna i projektet:
 - `Procfile` – Används för att starta appen i Render.
 - `Dockerfile` – Bygger appens produktionscontainer.
 - `docker-compose.yml` – Docker-konfiguration för att köra appen.
-- `docker-compose.dev.yml` – Utvecklingsversion med bind mounts och Flask autoreload.
 
