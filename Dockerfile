@@ -1,21 +1,27 @@
 # Start från en minimal Python-bild
-FROM python:3.12-slim
+FROM python:3.12-slim-bullseye
 
-# Skapa arbetskatalog
+# Uppdatera systemet och installera beroenden
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    gcc \
+    libffi-dev \
+    libssl-dev \
+    git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Ange arbetskatalog
 WORKDIR /app
 
-# Kopiera beroenden först (för cache)
+# Kopiera beroenden först (för effektiv cache)
 COPY requirements.txt .
 
-# Installera beroenden
-RUN pip install --no-cache-dir -r requirements.txt
+# Installera Python-beroenden
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Kopiera all kod
+# Kopiera resten av projektet
 COPY . .
 
-# Miljövariabler (du kan även hantera detta via docker-compose)
-ENV PYTHONUNBUFFERED=1
-ENV PORT=5000
-
-# Kör appen via Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Ange kommandot för att köra appen
+CMD ["python", "main.py"]
