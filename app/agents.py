@@ -1,61 +1,51 @@
 import os
 from dotenv import load_dotenv
 from agents import Agent, Runner, ModelSettings, FileSearchTool, WebSearchTool
-from app.utils import clean_response
-from app.memory import save_message, get_full_log
 
 load_dotenv()
-vector_id = os.getenv("VECTOR_ID")
 
-# Agent-definition
-chat_agent = Agent(
-    name="Navigator",
+# Hämta miljövariabler
+ledning_vector_id = os.getenv("LEDNING_VECTOR_ID")
+verksamhet_vector_id = os.getenv("VERKSAMHET_VECTOR_ID")
+ledning_model = os.getenv("LEDNING_MODEL_ID")
+verksamhet_model = os.getenv("VERKSAMHET_MODEL_ID")
+
+# Agent för Ledning
+ledning_agent = Agent(
+    name="Ledning",
     instructions="""
-    Du är en digital medhjälpare för Eklunda kommun, specialiserad på LSS-verksamhet. 
-    Dina främsta uppgifter är att bistå anställda och chefer med korrekt, tydlig och professionell information.
+    Du är en digital assistent för chefer inom LSS-verksamheten i Eklunda kommun. 
+    Fokus ligger på planering, arbetsledning, strategi och uppföljning.
 
-    Du kan:
-    - Svara på frågor om enskilda brukare baserat på tillgänglig information.
-    - Hjälpa till att tolka och förklara rutiner, riktlinjer och arbetssätt inom LSS.
-    - Stötta personal i hur de bör agera i specifika situationer, med fokus på god omsorg, juridisk korrekthet och dokumentation.
-    - Vara ett bollplank för handläggning, planering och arbetsledning.
-    - Besvara generella frågor (t.ex. teknik, digitala verktyg, systemstöd) med hjälp av allmän kunskap eller webbsökning.
-
-    Dina svar ska vara:
-    - Tydliga, hjälpsamma och respektfulla.
-    - Anpassade för anställda inom socialtjänst, boendestöd och omsorg.
-    - Baserade på fakta från tillgängliga källor, inklusive din egen expertkunskap när dokument saknas.
-    - Professionella – som om du själv var en erfaren kollega inom kommunen.
-
-    När informationen inte finns tillgänglig:
-    - Använd din allmänna kunskap om ämnet där det är rimligt.
-    - Var tydlig med vad som är generell kunskap och vad som kommer från lokala riktlinjer.
-    - Ge gärna förslag på vart personalen kan vända sig för lokal förankring (ex. chef, MAS, handläggare eller riktlinjedokument).
-    - Säg tydligt att du saknar underlag för att ge ett säkert svar.
-
-    Var alltid saklig, lösningsfokuserad och omtänksam i tonen.
+    Dina uppgifter:
+    - Stötta chefer i tolkning av riktlinjer, beslut och övergripande mål.
+    - Vara ett bollplank i personalärenden, planering, ekonomi och kvalitetsuppföljning.
+    - Besvara frågor med fokus på juridik, ansvar och styrning.
     """,
-    model="ft:gpt-4o-2024-08-06:pa-publishing:pa-navigator:BKmksrsT",
-    # gpt-4o-mini
-    # gpt-4o-turbo-preview
-    # gpt-4o-turbo
+    model=ledning_model,
     model_settings=ModelSettings(temperature=0.4),
     tools=[
-        FileSearchTool(
-            vector_store_ids=[vector_id],
-            
-        ),
-        WebSearchTool(),
+        FileSearchTool(vector_store_ids=[ledning_vector_id]),
+        WebSearchTool()
     ]
 )
 
-# Funktion för att generera svar baserat på användarens inmatning
-async def generate_response(user_input: str) -> str:
-    save_message("user", user_input)
-    full_history = get_full_log()
+# Agent för Verksamhet
+verksamhet_agent = Agent(
+    name="Verksamhet",
+    instructions="""
+    Du är en digital medhjälpare för personal i verksamheten i Eklunda kommun.
+    Fokus ligger på det dagliga arbetet i gruppbostad, boendestöd och daglig verksamhet.
 
-    result = await Runner.run(chat_agent, input=full_history)
-
-    reply = clean_response(result.final_output)
-    save_message("assistant", reply)
-    return reply
+    Du kan:
+    - Tolka rutiner, hjälpa till vid dokumentation och stötta i hur man bör agera i specifika situationer.
+    - Förklara LSS-lagstiftning, genomförandeplaner och samverkan med handläggare eller anhöriga.
+    - Hjälpa till att hitta information i riktlinjer eller system.
+    """,
+    model=verksamhet_model,
+    model_settings=ModelSettings(temperature=0.4),
+    tools=[
+        FileSearchTool(vector_store_ids=[verksamhet_vector_id]),
+        WebSearchTool()
+    ]
+)
