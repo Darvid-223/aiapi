@@ -22,5 +22,7 @@ Här är en översikt av de viktigaste delarna i projektet:
 - `requirements.txt` – Alla Python-paket som projektet använder.
 - `.env` – Miljövariabler (API-nycklar etc., ingår inte i Git).
 - `.gitignore` – Anger vilka filer och mappar som ska ignoreras i Git.
-- `Procfile` – Används för att starta appen i Render.
+- `Dockerfile` – Definierar hur projektet byggs och körs i en container (används t.ex. av Render).
+- `.dockerignore` – Anger vilka filer som ska uteslutas vid Docker-bygge (liknar `.gitignore`).
+
 
