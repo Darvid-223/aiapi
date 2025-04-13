@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from agents import Agent, Runner, ModelSettings, FileSearchTool, WebSearchTool
+from agents import Agent, ModelSettings, FileSearchTool, WebSearchTool
 
 load_dotenv()
 
