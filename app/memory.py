@@ -1,5 +1,3 @@
-# app/memory.py
-
 ledning_log = []
 verksamhet_log = []
 

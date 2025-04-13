@@ -1,5 +1,3 @@
-# app/agents.py
-
 import os
 from dotenv import load_dotenv
 from agents import Agent, Runner, ModelSettings, FileSearchTool, WebSearchTool

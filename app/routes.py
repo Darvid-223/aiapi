@@ -1,5 +1,3 @@
-# app/routes.py
-
 from flask import request, jsonify, render_template
 from app import app
 from app.generate_response import generate_response

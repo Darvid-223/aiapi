@@ -1,5 +1,3 @@
-# app/generate_response.py
-
 from app.agents import ledning_agent, verksamhet_agent
 from app.memory import save_message, get_full_log
 from agents import Runner
