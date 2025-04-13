@@ -7,7 +7,6 @@ Här är en översikt av de viktigaste delarna i projektet:
 - `agents.py` – Skapar och kör agenten, använder OpenAI Agent SDK, FileSearchTool och vector store.
 - `generate_response.py` – Innehåller funktioner som anropar rätt agent beroende på användartyp.
 - `routes.py` – Flask-routes för startsidan och API-anrop (`/`, `/chat`).
-- `utils.py` – Hjälpfunktioner, t.ex. för att läsa JSON-filer och rensa AI-svar.
 - `memory.py` – Håller konversationsminne under pågående session.
 - `templates/index.html` – HTML-sida som innehåller chattens gränssnitt.
 - `static/style.css` – Styling för chattens utseende.
