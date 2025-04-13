@@ -62,19 +62,38 @@ async function sendMessage() {
   }
 }
 
+// 🧹 Töm chatten visuellt
+function clearChat() {
+  const chat = document.getElementById("chat-container");
+  chat.innerHTML = "";
+}
+
 // 🧠 Initiera event listeners när sidan är klar
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("chat-text");
   const button = document.getElementById("send-btn");
-  
+
   button.addEventListener("click", sendMessage);
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
 
-  // 👥 Byt användartyp och töm chatten
+  // 👥 När användartyp ändras – töm både frontend och backend-minnet
   const userTypeInputs = document.querySelectorAll("input[name='user_type']");
   userTypeInputs.forEach(input => {
-    input.addEventListener("change", clearChat);
+    input.addEventListener("change", async () => {
+      clearChat();
+      const userType = input.value;
+
+      try {
+        await fetch("/reset_memory", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_type: userType }),
+        });
+      } catch (err) {
+        console.error("Kunde inte rensa serverminnet:", err);
+      }
+    });
   });
 });

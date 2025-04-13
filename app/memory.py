@@ -15,3 +15,10 @@ def get_full_log(user_type):
     elif user_type == "verksamhet":
         return verksamhet_log
     return []
+
+def reset_log(user_type: str):
+    global ledning_log, verksamhet_log
+    if user_type == "ledning":
+        ledning_log = []
+    elif user_type == "verksamhet":
+        verksamhet_log = []
