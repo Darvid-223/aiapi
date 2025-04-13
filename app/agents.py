@@ -36,7 +36,7 @@ chat_agent = Agent(
     # gpt-4o-mini
     # gpt-4o-turbo-preview
     # gpt-4o-turbo
-    model_settings=ModelSettings(temperature=0.3),
+    model_settings=ModelSettings(temperature=0.4),
     tools=[
         FileSearchTool(
             vector_store_ids=[vector_id],
