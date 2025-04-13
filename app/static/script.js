@@ -66,7 +66,7 @@ async function sendMessage() {
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("chat-text");
   const button = document.getElementById("send-btn");
-
+  
   button.addEventListener("click", sendMessage);
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
