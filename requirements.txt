@@ -1,9 +1,6 @@
 openai
 python-dotenv
-streamlit
-psycopg2-binary
 flask
 flask-cors
 gunicorn
-jinja2
 openai-agents
