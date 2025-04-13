@@ -19,7 +19,6 @@ Här är en översikt av de viktigaste delarna i projektet:
 
 ### Rotkatalog:
 - `main.py` – Startar Flask-servern.
-- `init_vectorstore.py` – Skript för att skapa och ladda upp innehåll till vector store (OpenAI Retrieval API).
 - `requirements.txt` – Alla Python-paket som projektet använder.
 - `.env` – Miljövariabler (API-nycklar etc., ingår inte i Git).
 - `.gitignore` – Anger vilka filer och mappar som ska ignoreras i Git.
