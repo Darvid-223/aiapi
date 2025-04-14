@@ -28,19 +28,24 @@ function addMessage(cls, text) {
   chat.scrollTop = chat.scrollHeight;
 }
 
+function resetTextarea(textarea) {
+  textarea.value = "";
+  const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+  textarea.style.height = lineHeight + "px";
+}
+
 // 📤 Skicka ett meddelande till servern
 async function sendMessage() {
-  const input = document.getElementById("chat-text");
-  const message = input.value.trim();
+  const textarea = document.getElementById("chat-text");
+  const message = textarea.value.trim();
   if (!message) return;
 
   addMessage("user", message);
-  input.value = "";
+  resetTextarea(textarea); // 🧹 återställ direkt efter att användaren skickat
 
   const loadingIndicator = document.getElementById("loading-indicator");
   loadingIndicator.style.display = "block";
 
-  // 🔍 Hämta användartyp
   const userType = document.querySelector("input[name='user_type']:checked")?.value || "verksamhet";
 
   try {
@@ -60,7 +65,10 @@ async function sendMessage() {
   } finally {
     loadingIndicator.style.display = "none";
   }
+  resetTextarea(document.getElementById("chat-text"));
+
 }
+
 
 // 🧹 Töm chatten visuellt
 function clearChat() {
@@ -74,9 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("send-btn");
 
   button.addEventListener("click", sendMessage);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
 
   // 👥 När användartyp ändras – töm både frontend och backend-minnet
   const userTypeInputs = document.querySelectorAll("input[name='user_type']");
@@ -97,3 +102,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
+
+const textarea = document.getElementById("chat-text");
+
+// 🟢 Dynamisk höjdanpassning
+textarea.addEventListener("input", () => {
+  textarea.style.height = "auto"; // återställ
+  textarea.style.height = textarea.scrollHeight + "px"; // väx
+});
+
+// 🟢 Skicka på Enter (utan Shift), radbryt på Shift+Enter
+textarea.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();       // stoppa ny rad
+    sendMessage();                // skicka
+  }
+  // Shift+Enter: inget event.preventDefault → ny rad fungerar!
+});
+
+// 🟢 Återställ höjd efter skickat
+function resetTextarea(textarea) {
+  textarea.value = "";
+  textarea.style.height = "auto"; // återställ
+  textarea.style.height = textarea.scrollHeight + "px"; // sätt korrekt 1-radshöjd
+}
+
