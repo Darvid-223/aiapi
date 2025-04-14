@@ -95,6 +95,13 @@ body {
   border-radius: 4px;
 }
 
+#chat-text::placeholder {
+  color: #999;               /* Ljusgrå färg */
+  font-style: italic;        /* Kursiv stil – ser modernare ut */
+  font-size: 15px;           /* Lite mindre än vanlig text */
+  opacity: 0.8;              /* Lite genomskinlig för mjukare känsla */
+  transition: opacity 0.3s;  /* Smooth fade när man börjar skriva */
+}
 
 #send-btn {
   background: linear-gradient(135deg, #10a37f, #3a9d9d); /* Inspirerat av GPT-loggans gröna ton */
