@@ -76,15 +76,17 @@ body {
   line-height: 24px;
   padding: 6px 12px;
   resize: none;
-  overflow: hidden;
+  display: flex;
+  align-items: stretch;
   border: none;
   outline: none;
   background: transparent;
   box-sizing: border-box;
   min-height: 36px;
   height: 36px;
-  max-height: 200px; /* eller vad du vill – t.ex. 5 rader */
-  overflow-y: auto;  /* visa scrollbar när max nås */
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-gutter: stable; /* Förhindrar att layouten hoppar när scrollbar visas (stöds i moderna browsers) */
 }
 
 #chat-text::-webkit-scrollbar {
@@ -299,35 +301,24 @@ header {
   }
 
   #chat-text {
-    padding: 10px 14px;
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 24px;          /* matchar radhöjd */
+    min-height: 44px;           /* tillräckligt för touch + centrerad text */
+    padding: 10px 14px 10px 14px; /* jämn padding för vertikal balans */
     width: 100%;
     border: none;
     border-radius: 20px 0 0 20px;
     outline: none;
     box-sizing: border-box;
+    overflow-y: hidden;
   }
+  
 
   #send-btn {
-    padding: 0 18px;
-    font-size: 18px;
-    height: auto;
-    border-radius: 0 20px 20px 0;
-    background: linear-gradient(135deg, #10a37f, #3a9d9d);
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.1s ease;
-    white-space: nowrap;
+    display: none;
   }
 
-  #send-btn:hover {
-    background: linear-gradient(135deg, #0f8e6d, #338888);
-  }
 
-  #send-btn:active {
-    transform: scale(0.97);
-  }
 
   header {
     flex-direction: column;
