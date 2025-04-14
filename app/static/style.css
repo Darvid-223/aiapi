@@ -160,7 +160,7 @@ body {
 
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* logga vänster, knappar höger */
   align-items: center;
   background-color: #111827;
   color: white;
@@ -321,8 +321,9 @@ header {
 
 
   header {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   #loading-indicator {
@@ -332,5 +333,17 @@ header {
     width: 100%;
     background-color: transparent;
   }
+  #user-type-selector label {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+  
+  #user-type-selector {
+    display: flex;
+    flex-direction: column; /* stapla vertikalt */
+    align-items: flex-end;  /* högerjustera */
+    gap: 4px;               /* lite mellanrum mellan valen */
+  }
+  
 }
 
