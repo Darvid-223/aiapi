@@ -83,7 +83,18 @@ body {
   box-sizing: border-box;
   min-height: 36px;
   height: 36px;
+  max-height: 200px; /* eller vad du vill – t.ex. 5 rader */
+  overflow-y: auto;  /* visa scrollbar när max nås */
 }
+
+#chat-text::-webkit-scrollbar {
+  width: 6px;
+}
+#chat-text::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
 
 #send-btn {
   background: linear-gradient(135deg, #10a37f, #3a9d9d); /* Inspirerat av GPT-loggans gröna ton */
