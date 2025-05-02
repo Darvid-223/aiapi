@@ -8,8 +8,6 @@ async def generate_response(user_input: str, user_type: str) -> str:
 
     agent = ledning_agent if user_type == "ledning" else verksamhet_agent
 
-    result = await Runner.run(agent, input=full_history)
-
 
     result = await Runner.run(agent, input=full_history)
     save_message(user_type, "assistant", result.final_output)
